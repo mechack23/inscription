@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fiche d’inscription – Campus France 2026–2027</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@500;700;800&display=swap">
+<style>
+:root{--bg:#F3EFE6;--card:#fff;--ink:#0E2554;--red:#D9382B;--line:#cfc8b8;--mut:#5a6785;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1630;--card:#13224a;--ink:#f3efe6;--red:#ff6a55;--line:#2c3d70;--mut:#a9b5d3}}
+:root[data-theme="dark"]{--bg:#0b1630;--card:#13224a;--ink:#f3efe6;--red:#ff6a55;--line:#2c3d70;--mut:#a9b5d3}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:500 16px/1.45 Manrope,Helvetica,Arial,sans-serif;padding:24px 16px 64px}
+main{max-width:720px;margin:0 auto}
+h1{font:400 clamp(44px,12vw,84px)/.92 Anton,Impact,sans-serif;text-transform:uppercase;margin:8px 0 6px}
+.sub{font-weight:800;font-size:19px;border-left:6px solid var(--red);padding-left:12px;margin:0 0 28px}
+fieldset{background:var(--card);border:0;border-top:3px solid var(--ink);margin:0 0 22px;padding:18px 18px 8px}
+legend{font:400 26px Anton,Impact,sans-serif;padding:0 8px 0 0;letter-spacing:.5px}
+legend small{font:700 13px Manrope,sans-serif;color:var(--mut);margin-left:8px}
+.f{margin:0 0 16px}label.l{display:block;font-weight:800;font-size:15px;margin-bottom:6px}
+.req{color:var(--red)}
+input[type=text],input[type=tel],input[type=email],input[type=date],select,textarea{width:100%;font:inherit;color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:4px;padding:11px 12px}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--red);border-color:var(--red)}
+textarea{min-height:84px;resize:vertical}
+.o{display:flex;flex-wrap:wrap;gap:8px 18px}.o label{display:flex;align-items:center;gap:8px;font-weight:500}
+input[type=radio],input[type=checkbox]{width:20px;height:20px;accent-color:var(--red)}
+button{font:800 18px Manrope,sans-serif;background:var(--red);color:#fff;border:0;border-radius:4px;padding:16px 28px;width:100%;cursor:pointer}
+button:disabled{opacity:.6}
+select{background:var(--card)}
+option{background:var(--card);color:var(--ink)}
+.msg{margin-top:16px;padding:14px;border-left:6px solid var(--red);background:var(--card);font-weight:700}
+.msg textarea{margin-top:10px;min-height:160px;font-size:13px}
+.tip{color:var(--mut);font-size:14px;margin:0 0 20px}
+</style></head><body><main>
+<div style="font-weight:800;letter-spacing:3px;text-transform:uppercase;font-size:14px">HAYE AGENCY</div>
+<h1>Campus France<br>2026–2027</h1>
+<p class="sub">Fiche d’inscription étudiant</p>
+<p class="tip">Remplis cette fiche pour que nous puissions monter ton dossier. Les champs marqués <span class="req">*</span> sont obligatoires. Ne mets ici ni numéro de passeport ni information bancaire.</p>
+<form id="f"></form>
+<div id="out"></div>
+</main>
+<script>
+const WA="+33 7 43 52 72 06".replace(/\D/g,"").replace(/^0+/,""),MAIL="haye_agency@outlook.com"; /* WA : numéro WhatsApp de l’agence au format international sans + (ex. 22900000000) ; MAIL : e-mail de l’agence */
+const Y=["Oui","Non"];
+const S=[
+["1. Identité et contact",[["Nom et prénoms","text",1],["Date de naissance","date",1],["Lieu de naissance","text",1],["Nationalité","text",1],["Téléphone (WhatsApp)","tel",1],["E-mail","email",1],["Ville de résidence actuelle","text",1],["As-tu déjà un compte sur la plateforme Études en France ?","radio",0,Y]]],
+["2. Parcours scolaire",[["Dernier diplôme obtenu","select",1,["BAC","Licence","BTS / DUT","Master","Autre"]],["Série ou filière","text",1],["Année d’obtention","text",1],["Établissement fréquenté","text",1],["Moyennes ou mentions obtenues","text",0],["Situation actuelle","select",1,["En cours d’études","En attente de résultats","Arrêt des études"]],["Redoublement ou interruption (à expliquer)","textarea",0]]],
+["3. Niveau de langue",[["Langue des études","select",1,["Français","Anglais","Autre"]],["Test de langue déjà passé","select",1,["Aucun","TCF","DELF","DALF","IELTS","TOEFL"]],["Score et date du test","text",0],["Souhaites-tu de l’aide pour te préparer au test ?","radio",0,Y]]],
+["4. Projet d’études",[["Niveau demandé","select",1,["L1","L2","L3","BUT","Master","École d’ingénieur","École de commerce","Autre"]],["Domaine ou filière souhaitée","text",1],["Tes 2 ou 3 choix de formation","textarea",1],["Pourquoi ce choix, et pourquoi la France ?","textarea",1],["Projet professionnel après les études","textarea",1],["Rentrée visée","select",1,["Septembre 2026","Janvier 2027","Septembre 2027"]],["Candidatures déjà déposées (Parcoursup, Mon Master, écoles) et réponses reçues","textarea",0]]],
+["5. Financement (optionnel)",[["Qui finance les études et le séjour ?","select",0,["Parents","Tuteur","Bourse","Moi-même"]],["Budget mensuel disponible","text",0],["Peux-tu justifier les ressources demandées pour le visa ?","radio",0,Y],["Souhaites-tu chercher une bourse ?","radio",0,Y]]],
+["6. Logement (optionnel)",[["Type de logement souhaité","select",0,["Résidence CROUS","Résidence privée","Colocation","Famille ou connaissance sur place"]],["Ville ou région visée","text",0],["Budget logement par mois","text",0],["As-tu quelqu’un en France ?","radio",0,Y]]],
+["7. Visa et documents (optionnel)",[["Passeport valide ?","radio",0,Y],["Date d’expiration du passeport","date",0],["Visa France ou Schengen déjà demandé ? Réponse ?","text",0],["Documents déjà prêts","checkbox",0,["Acte de naissance","Relevés de notes","Diplômes","Photo","Lettre de motivation","CV"]],["Documents qui manquent","textarea",0]]],
+["8. Service souhaité",[["Services souhaités","checkbox",1,["Création et suivi de dossier","Préparation à l’entretien","Recherche de logement","Demande de visa","Tout le pack"]],["Date limite que tu as en tête","date",0],["Comment as-tu connu l’agence ?","text",0]]]
+];
+const f=document.getElementById("f");let n=0;
+const esc=s=>s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+f.innerHTML=S.map(([t,fs])=>`<fieldset><legend>${esc(t)}</legend>`+fs.map(([q,type,r,opts])=>{
+ const id="q"+(n++),rq=r?` <span class="req">*</span>`:"",h=`<div class="f"><label class="l" ${type=="radio"||type=="checkbox"?"":`for="${id}"`}>${esc(q)}${rq}</label>`;
+ if(type=="select")return h+`<select id="${id}" name="${esc(q)}" ${r?"required":""}><option value="">Choisir…</option>${opts.map(o=>`<option>${esc(o)}</option>`).join("")}</select></div>`;
+ if(type=="textarea")return h+`<textarea id="${id}" name="${esc(q)}" ${r?"required":""}></textarea></div>`;
+ if(type=="radio"||type=="checkbox")return h+`<div class="o">${opts.map((o,i)=>`<label><input type="${type}" name="${esc(q)}" value="${esc(o)}" ${type=="radio"&&r&&!i?"required":""}>${esc(o)}</label>`).join("")}</div></div>`;
+ return h+`<input id="${id}" type="${type}" name="${esc(q)}" ${r?"required":""}></div>`;}).join("")+`</fieldset>`).join("")+
+`<fieldset><legend>9. Consentement</legend><div class="f"><div class="o"><label><input type="checkbox" id="ok" required>J’accepte que mes informations soient utilisées pour le suivi de mon dossier. <span class="req">*</span></label></div></div></fieldset><button type="submit" id="go">Envoyer ma fiche</button>`;
+f.addEventListener("submit",async e=>{
+ e.preventDefault();const d={},fd=new FormData(f);
+ for(const [k,v] of fd){if(v)d[k]=d[k]?d[k]+", "+v:v}
+ const txt=Object.entries(d).map(([k,v])=>k+" : "+v).join("\n"),out=document.getElementById("out");
+ window.__t=txt;const full=encodeURIComponent("Fiche d’inscription Campus France 2026–2027\n\n"+txt),q=full.length>1500?encodeURIComponent("Bonjour, voici ma fiche d’inscription Campus France (je colle mes réponses juste après)."):full;
+ const btns=(WA?`<p><a href="https://wa.me/${WA}?text=${q}" target="_blank" rel="noopener" onclick="navigator.clipboard&&navigator.clipboard.writeText(window.__t)" style="color:var(--red)">Envoyer par WhatsApp</a></p>`:"")+(MAIL?`<p><a href="mailto:${MAIL}?subject=${encodeURIComponent("Fiche d’inscription Campus France")}&body=${q}" style="color:var(--red)">Envoyer par e-mail</a></p>`:"");
+ out.innerHTML=`<div class="msg">Merci. Dernière étape : envoie ta fiche à l’agence.${btns}<p style="font-weight:500;margin:8px 0 0">Si le message arrive incomplet, colle ce texte dans la conversation (il est copié automatiquement en cliquant sur le lien) :</p><textarea readonly onclick="this.select()">${esc(txt)}</textarea></div>`;
+ out.scrollIntoView({behavior:"smooth"});
+});
+</script></body></html>
